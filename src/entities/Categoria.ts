@@ -21,10 +21,4 @@ export class Categoria {
     transformer: new BooleanToStringConverter(),
   })
   flAtivo: boolean;
-
-  constructor(nome?: string, descricao?: string, flAtivo?: boolean) {
-    if (nome) this.nome = nome;
-    if (descricao) this.descricao = descricao;
-    if (flAtivo !== undefined) this.flAtivo = flAtivo;
-  }
 }
