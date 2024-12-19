@@ -20,7 +20,7 @@ export class Produto {
   quantidade: number;
 
   @ManyToOne(() => Categoria, { nullable: false })
-  @JoinColumn({ name: "categoria_id" })
+  @JoinColumn({ name: "categoria_id", referencedColumnName: 'id' })
   categoria: Categoria;
 
   @Column({
