@@ -20,9 +20,4 @@ export class Entrada {
     update: false,
   })
   dataEntrada: Date;
-
-  constructor(produto?: Produto, quantidade?: number) {
-    if (produto) this.produto = produto;
-    if (quantidade !== undefined) this.quantidade = quantidade;
-  }
 }
