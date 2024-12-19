@@ -32,20 +32,4 @@ export class Produto {
     transformer: new BooleanToStringConverter(),
   })
   flAtivo: boolean;
-
-  constructor(
-    nome?: string,
-    descricao?: string,
-    preco?: number,
-    quantidade?: number,
-    categoria?: Categoria,
-    flAtivo?: boolean
-  ) {
-    if (nome) this.nome = nome;
-    if (descricao) this.descricao = descricao;
-    if (preco !== undefined) this.preco = preco;
-    if (quantidade !== undefined) this.quantidade = quantidade;
-    if (categoria) this.categoria = categoria;
-    if (flAtivo !== undefined) this.flAtivo = flAtivo;
-  }
 }
