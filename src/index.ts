@@ -1,13 +1,19 @@
 import express from 'express';
 import { AppDataSource } from './data-source';
-import routes from './routes';
+import { categoriaRoutes } from './routes/CategoriaRoutes';
+import { produtoRoutes } from './routes/ProdutoRoutes';
+import { entradaRoutes } from './routes/EntradaRoutes';
+import { saidaRoutes } from './routes/SaidaRoutes';
 
 AppDataSource.initialize().then(() => {
    const app = express();
 
    app.use(express.json());
 
-   app.use(routes);
+   app.use('/api/categoria', categoriaRoutes);
+   app.use('/api/produto', produtoRoutes);
+   app.use('/api/entrada', entradaRoutes);
+   app.use('/api/saida', saidaRoutes);
 
    return app.listen(process.env.PORT);
 });
