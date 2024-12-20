@@ -41,6 +41,9 @@ export class CategoriaController {
         descricao,
         flAtivo: true,
       });
+
+      await categoriaRepository.save(novaCategoria);
+
       res.status(201).json(novaCategoria);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao adicionar nova categoria' });
@@ -56,7 +59,8 @@ export class CategoriaController {
       const categoriaExistente = await categoriaRepository.findOneBy({ id: Number(id) });
 
       if (!categoriaExistente) {
-        return res.status(404).json({ error: 'Categoria não encontrada' });
+        res.status(404).json({ error: 'Categoria não encontrada' });
+        return;
       }
 
       categoriaExistente.nome = nome || categoriaExistente.nome;
