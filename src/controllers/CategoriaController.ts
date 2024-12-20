@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { categoriaRepository } from '../repositories/CategoriaRepository';
 
 export class CategoriaController {
-  // Obter todas as categorias
+
+  // get em todas as categorias
   async getCategorias(req: Request, res: Response) {
     try {
       const categorias = await categoriaRepository.find();
@@ -12,7 +13,7 @@ export class CategoriaController {
     }
   }
 
-  // Obter categorias ativas
+  // get nas categorias ativas
   async getAtivos(req: Request, res: Response) {
     try {
       const categoriasAtivas = await categoriaRepository.find({ where: { flAtivo: true } });
@@ -22,7 +23,7 @@ export class CategoriaController {
     }
   }
 
-  // Obter categorias inativas
+  // get nas categorias inativas
   async getInativos(req: Request, res: Response) {
     try {
       const categoriasInativas = await categoriaRepository.find({ where: { flAtivo: false } });
@@ -32,8 +33,8 @@ export class CategoriaController {
     }
   }
 
-  // Adicionar uma nova categoria
-  async novaCategoria(req: Request, res: Response) {
+  // adicionar uma nova categoria
+  async newCategoria(req: Request, res: Response) {
     try {
       const { nome, descricao } = req.body;
       const novaCategoria = await categoriaRepository.create({
@@ -50,8 +51,8 @@ export class CategoriaController {
     }
   }
 
-  // Editar uma categoria existente
-  async editarCategoria(req: Request, res: Response) {
+  // editar uma categoria existente
+  async editCategoria(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const { nome, descricao, flAtivo } = req.body;
