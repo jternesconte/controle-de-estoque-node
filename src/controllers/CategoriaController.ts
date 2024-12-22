@@ -1,3 +1,4 @@
+import { produtoRepository } from './../repositories/ProdutoRepository';
 import { Request, Response } from 'express';
 import { categoriaRepository } from '../repositories/CategoriaRepository';
 
@@ -55,13 +56,24 @@ export class CategoriaController {
   async editCategoria(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { nome, descricao, flAtivo } = req.body;
-
+      const { nome, descricao, flAtivo } = req.body; 
+    
       const categoriaExistente = await categoriaRepository.findOneBy({ id: Number(id) });
 
       if (!categoriaExistente) {
         res.status(404).json({ error: 'Categoria não encontrada' });
         return;
+      }
+
+      if((categoriaExistente.flAtivo !== flAtivo) && flAtivo === false) {
+
+        let produtosDaCategoria = await produtoRepository.find({ where: { categoria: { id: Number(id) } } });
+
+        produtosDaCategoria.forEach(r => {
+          r.flAtivo = false;
+
+          produtoRepository.save(r);
+        })
       }
 
       categoriaExistente.nome = nome || categoriaExistente.nome;
