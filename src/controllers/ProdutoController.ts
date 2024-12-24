@@ -40,6 +40,11 @@ export class ProdutoController {
          const { nome, descricao, preco, quantidade } = req.body;
          const { categoriaId } = req.params;
 
+         if(quantidade < 0) {
+            res.status(404).json({ error: 'Quantidade negativa não permitida' });
+            return;
+         }
+
          const categoria = await categoriaRepository.findOneBy({ id: Number(categoriaId) });
          if(!categoria) {
             res.status(404).json({ error: 'Categoria não encontrada' });
@@ -79,7 +84,7 @@ export class ProdutoController {
          produtoExistente.nome = nome ?? produtoExistente.nome;
          produtoExistente.descricao = descricao ?? produtoExistente.descricao;
          produtoExistente.preco = preco ?? produtoExistente.preco;
-         produtoExistente.quantidade = quantidade ?? produtoExistente.quantidade;
+         produtoExistente.quantidade = produtoExistente.quantidade;
          produtoExistente.flAtivo = flAtivo ?? produtoExistente.flAtivo;
 
          if(categoriaId) {
