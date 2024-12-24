@@ -16,9 +16,14 @@ export class SaidaController {
             return;
          }
 
-         produto.quantidade = produto.quantidade - Number(quantidade);
+         if(produto.quantidade < Number(quantidade)) {
+            res.status(404).json({ error: 'Não permitido produto com quantidade negativa' });
+            return;
+         } else {
+            produto.quantidade = produto.quantidade - Number(quantidade);
+            await produtoRepository.save(produto);
+         }
 
-         await produtoRepository.save(produto);
 
          const newSaida = saidaRepository.create({ produto, quantidade });
 
