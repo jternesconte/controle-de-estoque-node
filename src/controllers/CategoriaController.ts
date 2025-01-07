@@ -1,6 +1,7 @@
 import { produtoRepository } from './../repositories/ProdutoRepository';
 import { Request, Response } from 'express';
 import { categoriaRepository } from '../repositories/CategoriaRepository';
+import { ICategoria } from '../interfaces/ICategoria';
 
 export class CategoriaController {
 
@@ -38,13 +39,14 @@ export class CategoriaController {
   async newCategoria(req: Request, res: Response) {
     try {
       const { nome, descricao } = req.body;
-      const novaCategoria = await categoriaRepository.create({
+
+      const novaCategoria: ICategoria = {
         nome,
         descricao,
-        flAtivo: true,
-      });
+        flAtivo: true //padrao,
+      };
 
-      await categoriaRepository.save(novaCategoria);
+      await categoriaRepository.saveCategoria(novaCategoria);
 
       res.status(201).json(novaCategoria);
     } catch (error) {
