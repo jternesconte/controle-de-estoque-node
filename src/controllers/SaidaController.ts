@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { produtoRepository } from '../repositories/ProdutoRepository';
 import { saidaRepository } from '../repositories/SaidaRepository';
+import { ISaida } from '../interfaces/ISaida';
 
 export class SaidaController {
 
@@ -25,10 +26,10 @@ export class SaidaController {
          }
 
 
-         const newSaida = saidaRepository.create({ produto, quantidade });
+         const newSaida: ISaida = { produto, quantidade };
 
 
-         saidaRepository.save(newSaida);
+         saidaRepository.saveSaida(newSaida);
 
          res.status(200).json(newSaida);
       } catch (error) {
