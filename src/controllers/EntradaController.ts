@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { produtoRepository } from '../repositories/ProdutoRepository';
 import { entradaRepository } from '../repositories/EntradaRepository';
+import { IEntrada } from '../interfaces/IEntrada';
 
 export class EntradaController {
 
@@ -20,10 +21,10 @@ export class EntradaController {
 
          await produtoRepository.save(produto);
 
-         const newEntrada = entradaRepository.create({ produto, quantidade });
+         const newEntrada: IEntrada = { produto, quantidade };
 
 
-         entradaRepository.save(newEntrada);
+         entradaRepository.saveEntrada(newEntrada);
 
          res.status(200).json(newEntrada);
       } catch (error) {
