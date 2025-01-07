@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { produtoRepository } from '../repositories/ProdutoRepository';
 import { categoriaRepository } from '../repositories/CategoriaRepository';
+import { IProduto } from '../interfaces/IProduto';
+import { ICategoria } from '../interfaces/ICategoria';
 
 export class ProdutoController {
 
@@ -51,14 +53,16 @@ export class ProdutoController {
             return;
          }
 
-         const newProduto = produtoRepository.create({
+         const Icategoria: ICategoria = categoria;
+
+         const newProduto: IProduto = {
             nome,
             descricao,
             preco,
             quantidade,
-            categoria,
-            flAtivo: true // padrão
-         });
+            categoria: Icategoria,
+            flAtivo: true //padrao
+         };
 
          await produtoRepository.save(newProduto);
 
