@@ -16,7 +16,7 @@ export class ProdutoController {
       }
    }
 
-   // get nos produtos ativas
+   // get nos produtos ativos
    async getAtivos(req: Request, res: Response) {
       try {
       const produtosAtivos = await produtoRepository.find({ where: { flAtivo: true } });
@@ -26,7 +26,7 @@ export class ProdutoController {
       }
    }
    
-   // get nos produtos inativas
+   // get nos produtos inativos
    async getInativos(req: Request, res: Response) {
       try {
       const produtosInativos = await produtoRepository.find({ where: { flAtivo: false } });
