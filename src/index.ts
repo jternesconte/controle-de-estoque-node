@@ -4,6 +4,7 @@ import { categoriaRoutes } from './routes/CategoriaRoutes';
 import { produtoRoutes } from './routes/ProdutoRoutes';
 import { entradaRoutes } from './routes/EntradaRoutes';
 import { saidaRoutes } from './routes/SaidaRoutes';
+import { authenticationRoutes } from './routes/AuthenticationRoutes';
 
 AppDataSource.initialize().then(() => {
    const app = express();
@@ -14,6 +15,7 @@ AppDataSource.initialize().then(() => {
    app.use('/api/produto', produtoRoutes);
    app.use('/api/entrada', entradaRoutes);
    app.use('/api/saida', saidaRoutes);
+   app.use('/api/authentication', authenticationRoutes)
 
    return app.listen(process.env.PORT);
 });
