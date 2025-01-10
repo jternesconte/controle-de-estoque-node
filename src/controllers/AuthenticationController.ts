@@ -11,4 +11,9 @@ export class AuthenticationController {
    async userLogin(req: Request, res: Response) {
       
    }
+
+   // validar se o usuario esta logado
+   async isUserLogged(req: Request, res: Response) {
+
+   }
 }
