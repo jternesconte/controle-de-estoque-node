@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { usuarioRepository } from '../repositories/UsuarioRepository';
 import { IUsuario } from '../interfaces/IUsuario';
-
-const bcrypt = require("bcrypt");
+import bcrypt from 'bcrypt';
 
 export class AuthenticationController {
 
