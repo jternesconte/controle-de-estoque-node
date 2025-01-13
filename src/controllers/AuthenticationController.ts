@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 export class AuthenticationController {
 
 
-   // novo cadastro
+   // cadastrar novo usuario
    async newCadastro(req: Request, res: Response) {
       try {
          const { nome, email, senha, senha2 } = req.body;
