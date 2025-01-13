@@ -40,7 +40,26 @@ export class AuthenticationController {
 
    // realizar login
    async userLogin(req: Request, res: Response) {
-      
+      try {
+         const { email, senha } = req.body;
+
+         const usuarioExistente = await usuarioRepository.findOneBy({ email: email });
+         if(usuarioExistente) {
+            const isSenhaCombina: boolean = await bcrypt.compare(senha, usuarioExistente.senha);
+
+            if(isSenhaCombina) {
+               res.status(201).json('logou');
+            } else {
+               res.status(404).json({ error: 'Senha inválida' });
+            }
+         } else {
+            res.status(404).json({ error: 'Email não cadastrado' });
+            return;
+         }
+
+      } catch {
+         res.status(500).json({ error: 'Erro ao realizar login' })
+      }
    }
 
    // validar se o usuario esta logado
