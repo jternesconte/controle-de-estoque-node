@@ -16,6 +16,11 @@ Este é um sistema de **gerenciamento de estoque** desenvolvido em **Node.js**, 
   - Inserir e remover unidades de estoque de um produto.
   - Ativar ou desativar produtos.
 
+- **Autenticação**:
+  - Cadastrar novo funcionário.
+  - Logar com usuário existente.
+  - Geração de token para validação de login.
+
 ---
 
 ## Tecnologias Utilizadas
@@ -24,4 +29,5 @@ Este é um sistema de **gerenciamento de estoque** desenvolvido em **Node.js**, 
 - **Banco de Dados**: PostgreSQL
 - **Gerenciador de Pacotes**: npm
 - **ORM/Query Builder**: TypeORM
-- **Outros**: Express
+- **Autenticação**: JWT (JsonWebTokens)
+- **Outros**: Express, bcrypt
