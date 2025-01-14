@@ -11,11 +11,11 @@ AppDataSource.initialize().then(() => {
 
    app.use(express.json());
 
+   app.use('/api/authentication', authenticationRoutes);
    app.use('/api/categoria', categoriaRoutes);
    app.use('/api/produto', produtoRoutes);
    app.use('/api/entrada', entradaRoutes);
    app.use('/api/saida', saidaRoutes);
-   app.use('/api/authentication', authenticationRoutes)
 
    return app.listen(process.env.PORT);
 });
