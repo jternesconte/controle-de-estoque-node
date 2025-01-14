@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { ProdutoController } from "../controllers/ProdutoController";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
 export const produtoRoutes = Router();
+
+produtoRoutes.use(authenticateToken);
 
 // Rota para obter todos os produtos
 produtoRoutes.get('/getAll', new ProdutoController().getProdutos);
