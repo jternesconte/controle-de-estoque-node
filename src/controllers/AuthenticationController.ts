@@ -65,17 +65,12 @@ export class AuthenticationController {
          const secret = process.env.SECRET_KEY as string;
 
          const token = jwt.sign({ userId: usuarioExistente.id }, secret, {
-            expiresIn:'1h'
+            expiresIn:'8h'
          });
 
          res.status(201).json({ msg: 'Autenticação realizada com sucesso', token });
       } catch {
          res.status(500).json({ error: 'Erro ao realizar login' })
       }
-   }
-
-   // validar se o usuario esta logado
-   async isUserLogged(req: Request, res: Response) {
-
    }
 }
