@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { CategoriaController } from "../controllers/CategoriaController";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
 export const categoriaRoutes = Router();
+
+categoriaRoutes.use(authenticateToken);
 
 // Rota para obter todas as categorias
 categoriaRoutes.get('/getAll', new CategoriaController().getCategorias);
