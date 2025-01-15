@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { usuarioRepository } from '../repositories/UsuarioRepository';
 
 type JwtPayload ={
-  id: number;
+  userId: number;
 }
 
 const secret = process.env.SECRET_KEY as string;
@@ -13,13 +13,13 @@ export const authenticateToken = async(req: Request, res: Response, next: NextFu
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    res.status(401).json({ msg: 'Token não fornecido.' });
+    res.status(401).json({ error: 'Token não fornecido.' });
     return;
   }
 
-  const { id } = jwt.verify(token, secret ?? '') as JwtPayload;
+  const { userId } = jwt.verify(token, secret ?? '') as JwtPayload;
 
-  const user = await usuarioRepository.findOneBy({ id });
+  const user = await usuarioRepository.findOneBy({ id: userId });
   
   if (!user) {
     res.status(401).json({ msg: 'Token inválido ou expirado.' });
