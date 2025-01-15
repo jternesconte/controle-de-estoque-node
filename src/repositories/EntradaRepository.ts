@@ -7,6 +7,7 @@ export const entradaRepository = AppDataSource.getRepository(Entrada).extend({
       const entrada = this.create({
          produto: data.produto,
          quantidade: data.quantidade,
+         usuario: data.usuario
       });
       return this.save(entrada);
    }
