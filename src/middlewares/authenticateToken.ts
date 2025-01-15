@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { usuarioRepository } from '../repositories/UsuarioRepository';
-import { Usuario } from '../entities/Usuario';
-import { UnauthorizedError } from '../helpers/api-errors';
 
 type JwtPayload ={
   id: number;
@@ -15,7 +13,8 @@ export const authenticateToken = async(req: Request, res: Response, next: NextFu
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    throw new UnauthorizedError('Token não fornecido.');
+    res.status(401).json({ msg: 'Token não fornecido.' });
+    return;
   }
 
   const { id } = jwt.verify(token, secret ?? '') as JwtPayload;
@@ -23,7 +22,8 @@ export const authenticateToken = async(req: Request, res: Response, next: NextFu
   const user = await usuarioRepository.findOneBy({ id });
   
   if (!user) {
-    throw new UnauthorizedError('Token inválido ou expirado.');
+    res.status(401).json({ msg: 'Token inválido ou expirado.' });
+    return;
   }
 
   const { senha: _, ...loggedUser} = user;
@@ -31,4 +31,4 @@ export const authenticateToken = async(req: Request, res: Response, next: NextFu
   req.user = loggedUser;
 
   next();
-};
+}
