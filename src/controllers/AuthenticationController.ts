@@ -4,6 +4,11 @@ import { IUsuario } from '../interfaces/IUsuario';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+
+type JwtPayload ={
+   userId: number;
+}
+
 export class AuthenticationController {
 
 
@@ -55,6 +60,7 @@ export class AuthenticationController {
 
             if(!isSenhaCombina) {
                res.status(404).json({ error: 'Senha inválida' });
+               return;
             }
 
          } else {
@@ -70,7 +76,44 @@ export class AuthenticationController {
 
          res.status(201).json({ msg: 'Autenticação realizada com sucesso', token });
       } catch {
-         res.status(500).json({ error: 'Erro ao realizar login' })
+         res.status(500).json({ error: 'Erro ao realizar login' });
+      }
+   }
+
+   // editar usuario existente
+   async editUser(req: Request, res:Response) {
+      try {
+         const { nome, senha, senhaAtual } = req.body;
+
+         const usuario = await usuarioRepository.findOneBy({ id: req.user?.id });
+         if(!usuario) {
+            res.status(404).json({ error: 'Usuário não encontrado' });
+            return;
+         } else {
+            if(nome) {
+               usuario.nome = nome;
+            }
+
+            if(senha && senhaAtual) {
+               const isSenhaAtualValida: boolean = await bcrypt.compare(senhaAtual, usuario.senha);
+               if(!isSenhaAtualValida) {
+                  res.status(400).json({ error: 'Senha atual incorreta' });
+                  return;
+               }
+
+               usuario.senha = await bcrypt.hash(senha, 10);
+            } else if(senha && !senhaAtual) {
+               res.status(400).json({ error: 'É necessário informar a senha atual para alterá-la' });
+               return;
+            }
+
+            await usuarioRepository.save(usuario);
+
+         }
+         
+         res.status(200).json({ msg: 'Usuário atualizado com sucesso' })
+      } catch {
+         res.status(500).json({ error: 'Erro ao editar usuário' });
       }
    }
 }
