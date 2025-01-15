@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { produtoRepository } from '../repositories/ProdutoRepository';
 import { saidaRepository } from '../repositories/SaidaRepository';
 import { ISaida } from '../interfaces/ISaida';
+import { usuarioRepository } from '../repositories/UsuarioRepository';
 
 export class SaidaController {
 
@@ -18,15 +19,21 @@ export class SaidaController {
          }
 
          if(produto.quantidade < Number(quantidade)) {
-            res.status(404).json({ error: 'Não permitido produto com quantidade negativa' });
+            res.status(404).json({ error: 'Não é permitido deixar o produto com quantidade negativa' });
             return;
          } else {
             produto.quantidade = produto.quantidade - Number(quantidade);
             await produtoRepository.save(produto);
          }
 
+         const usuario = await usuarioRepository.findOneBy({ id: Number(req.user?.id) });
+         if(!usuario) {
+            res.status(404).json({ error: 'Usuário não encontrado com o id: ' + req.user?.id });
+            return;
+         }
 
-         const newSaida: ISaida = { produto, quantidade };
+
+         const newSaida: ISaida = { produto, quantidade, usuario };
 
 
          saidaRepository.saveSaida(newSaida);
