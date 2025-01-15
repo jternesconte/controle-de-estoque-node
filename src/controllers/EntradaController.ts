@@ -1,3 +1,4 @@
+import { usuarioRepository } from './../repositories/UsuarioRepository';
 import { Request, Response } from 'express';
 import { produtoRepository } from '../repositories/ProdutoRepository';
 import { entradaRepository } from '../repositories/EntradaRepository';
@@ -17,11 +18,17 @@ export class EntradaController {
             return;
          }
 
+         const usuario = await usuarioRepository.findOneBy({ id: Number(req.user?.id) });
+         if(!usuario) {
+            res.status(404).json({ error: 'Usuário não encontrado com o id: ' + req.user?.id });
+            return;
+         }
+
          produto.quantidade = produto.quantidade + Number(quantidade);
 
          await produtoRepository.save(produto);
 
-         const newEntrada: IEntrada = { produto, quantidade };
+         const newEntrada: IEntrada = { produto, quantidade, usuario };
 
 
          entradaRepository.saveEntrada(newEntrada);
